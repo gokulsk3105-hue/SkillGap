@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillBridge</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f0e8;--sur:#fff;--sur2:#f0ebe0;--sur3:#e8e0d0;--text:#1a1510;--muted:#8a8070;--bdr:#ddd5c5;--ink:#1a1510;--red:#ff4d00;--grn:#00a86b;--blu:#0055ff}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);background-size:40px 40px;opacity:.3;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:2rem 1rem 5rem}
+header{padding:2.5rem 0 2rem;border-bottom:2px solid var(--ink);margin-bottom:2rem}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+.brand{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,8vw,5rem);line-height:.9;letter-spacing:.02em}
+.brand span{color:var(--red)}
+.tbox{background:var(--ink);color:var(--bg);padding:7px 14px;font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:6px}
+.hsub{font-size:13px;color:var(--muted);max-width:220px;text-align:right;line-height:1.5}
+.card{background:var(--sur);border:2px solid var(--ink);padding:1.75rem;margin-bottom:1.5rem;position:relative}
+.card::after{content:"";position:absolute;bottom:-5px;right:-5px;width:100%;height:100%;border:2px solid var(--ink);z-index:-1}
+.ctitle{font-family:"Bebas Neue",sans-serif;font-size:1.4rem;letter-spacing:.04em;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.nbadge{background:var(--red);color:#fff;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border-radius:4px;flex-shrink:0}
+label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+input[type=text],select{width:100%;padding:11px 14px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:6px;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+input:focus,select:focus{border-color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.fg{margin-bottom:1rem}
+.siw{display:flex;gap:8px;margin-bottom:10px}
+.siw input{flex:1}
+.abtn{padding:10px 16px;background:var(--ink);color:var(--bg);border:none;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.abtn:hover{opacity:.8}
+.tagwrap{display:flex;flex-wrap:wrap;gap:6px;min-height:34px;padding:4px 0}
+.tag{background:var(--sur2);border:1.5px solid var(--bdr);border-radius:999px;padding:5px 12px;font-size:13px;display:flex;align-items:center;gap:6px}
+.tagx{cursor:pointer;color:var(--muted);font-size:16px;line-height:1}
+.tagx:hover{color:var(--red)}
+.bmain{width:100%;padding:16px;background:var(--ink);color:var(--bg);border:none;font-family:"Bebas Neue",sans-serif;font-size:1.5rem;letter-spacing:.1em;cursor:pointer;transition:background .2s;margin-top:.5rem}
+.bmain:hover{background:var(--red)}
+.bghost{width:100%;padding:12px;background:transparent;color:var(--muted);border:1.5px solid var(--bdr);border-radius:6px;font-family:"DM Sans",sans-serif;font-size:14px;cursor:pointer;margin-top:8px}
+.bghost:hover{border-color:var(--ink);color:var(--ink)}
+.hidden{display:none}
+/* TABS */
+.tabnav{display:flex;border:2px solid var(--ink);margin-bottom:1.5rem;overflow-x:auto}
+.tbtn{flex:1;min-width:80px;padding:12px 8px;background:transparent;border:none;border-right:1.5px solid var(--bdr);font-family:"Bebas Neue",sans-serif;font-size:.95rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .2s;white-space:nowrap}
+.tbtn:last-child{border-right:none}
+.tbtn.active{background:var(--ink);color:var(--bg)}
+.tbtn:hover:not(.active){background:var(--sur2)}
+.tcontent{display:none;animation:fu .3s ease}
+.tcontent.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* HERO */
+.hero{background:var(--ink);color:var(--bg);padding:2rem;margin-bottom:1.5rem;display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
+.snum{font-family:"Bebas Neue",sans-serif;font-size:5rem;line-height:1;color:var(--red)}
+.slbl{font-family:"DM Mono",monospace;font-size:11px;color:#888;letter-spacing:.06em}
+.hrole{font-family:"Bebas Neue",sans-serif;font-size:2rem;color:var(--red);margin-bottom:6px}
+.hmeta{font-size:13px;color:#aaa;line-height:1.6}
+.hchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.hchip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:3px 10px;font-family:"DM Mono",monospace;font-size:11px;color:#ccc}
+/* GAP */
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem}
+.gctitle{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--bdr)}
+.sitem{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:6px;font-weight:500}
+.sitem.have{background:#e8f7f0;border:1px solid #b0ddc8;color:#005a38}
+.sitem.miss{background:#fff0eb;border:1px solid #ffc4a8;color:#8b2200}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dh{background:#00a86b}.dm{background:#ff4d00}
+/* PROGRESS */
+.pwrap{margin-bottom:1.5rem}
+.plbl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.ptrack{height:10px;background:var(--sur3);border-radius:999px;overflow:hidden;border:1px solid var(--bdr)}
+.pfill{height:100%;border-radius:999px;background:var(--ink);transition:width 1.2s ease}
+/* SALARY */
+.srow{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.slabel{font-size:13px;min-width:130px;color:var(--muted);font-weight:500}
+.strack{flex:1;height:10px;background:var(--sur2);border-radius:999px;overflow:hidden;border:1px solid var(--bdr)}
+.sfill{height:100%;border-radius:999px;background:var(--ink);transition:width 1s ease}
+.sval{font-family:"DM Mono",monospace;font-size:13px;font-weight:600;min-width:90px;text-align:right}
+/* STUDY PLAN */
+.mblock{border:1.5px solid var(--bdr);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.mhdr{background:var(--sur2);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr)}
+.mtitle{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.04em}
+.mbadge{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted)}
+.mbody{padding:12px 16px}
+.witem{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bdr)}
+.witem:last-child{border-bottom:none}
+.wnum{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;color:var(--red);min-width:30px}
+.wtitle{font-weight:600;font-size:14px;margin-bottom:3px}
+.wtasks{font-size:13px;color:var(--muted);line-height:1.5}
+.wtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.wtag{background:var(--sur2);border:1px solid var(--bdr);border-radius:4px;padding:2px 8px;font-family:"DM Mono",monospace;font-size:10px;color:var(--muted)}
+.wtag.hl{background:#fff0eb;border-color:#ffc4a8;color:#8b2200}
+.whrs{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-top:4px}
+/* DAILY */
+.dcard{background:var(--sur2);border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:1.25rem}
+.dtitle{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.drow{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.drow:last-child{border-bottom:none}
+.dtime{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);min-width:85px}
+.dtask{flex:1;font-weight:500}
+.ddur{font-family:"DM Mono",monospace;font-size:11px;color:var(--red)}
+/* RESOURCES */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rcard{background:var(--sur2);border:1px solid var(--bdr);border-radius:8px;padding:14px}
+.rskill{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.rlinks{display:flex;flex-wrap:wrap;gap:5px}
+.rlink{background:var(--sur);border:1px solid var(--bdr);border-radius:4px;padding:3px 8px;font-size:11px;color:var(--blu);font-family:"DM Mono",monospace}
+.rlink.free{color:var(--grn);border-color:#b0ddc8}
+/* INTERVIEW */
+.iphase{border:1.5px solid var(--bdr);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.iphdr{background:var(--ink);color:var(--bg);padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.ipname{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.04em}
+.ipwk{font-family:"DM Mono",monospace;font-size:11px;color:#aaa}
+.ipbody{padding:14px 16px}
+.pitem{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.pitem:last-child{border-bottom:none}
+.pico{font-size:16px;flex-shrink:0}
+.pb{font-weight:600;display:block;margin-bottom:2px}
+.pd{color:var(--muted);line-height:1.5}
+/* DSA */
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.dtopic{background:var(--sur2);border:1px solid var(--bdr);border-radius:8px;padding:12px}
+.dname{font-weight:600;font-size:13px;margin-bottom:4px}
+.dcnt{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted)}
+.dbar{height:4px;background:var(--bdr);border-radius:999px;margin-top:8px;overflow:hidden}
+.dbfill{height:100%;border-radius:999px;background:var(--ink);transition:width 1s ease}
+/* QA */
+.qalist{display:flex;flex-direction:column;gap:10px}
+.qaitem{background:var(--sur2);border-left:3px solid var(--red);padding:12px 16px;border-radius:0 8px 8px 0}
+.qaq{font-weight:600;font-size:13px;margin-bottom:4px}
+.qaa{font-size:13px;color:var(--muted);line-height:1.5;display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
+.qatog{font-family:"DM Mono",monospace;font-size:11px;color:var(--red);cursor:pointer;margin-top:4px;display:inline-block}
+/* TIPS */
+.tiplist{display:flex;flex-direction:column;gap:8px}
+.tipitem{display:flex;gap:10px;font-size:13px;padding:10px 12px;background:var(--sur2);border-radius:6px;line-height:1.5}
+/* APPLY */
+.astep{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--bdr)}
+.astep:last-child{border-bottom:none}
+.anum{font-family:"Bebas Neue",sans-serif;font-size:2.5rem;color:var(--red);line-height:1;min-width:44px}
+.atitle{font-weight:700;font-size:15px;margin-bottom:4px}
+.adesc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.achips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500}
+.ct{background:#e8f0ff;border:1px solid #b0c4f8;color:#003399}
+.cw{background:#fff0eb;border:1px solid #ffc4a8;color:#8b2200}
+.cg{background:#e8f7f0;border:1px solid #b0ddc8;color:#005a38}
+/* PLATFORMS */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:1rem}
+.pcard{background:var(--sur2);border:1px solid var(--bdr);border-radius:8px;padding:14px}
+.pname{font-weight:700;font-size:14px;margin-bottom:4px}
+.pdesc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.ptags{display:flex;flex-wrap:wrap;gap:4px}
+.ptag{font-size:11px;background:var(--sur);border:1px solid var(--bdr);border-radius:4px;padding:2px 6px;font-family:"DM Mono",monospace;color:var(--muted)}
+footer{text-align:center;font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);padding-top:2rem;border-top:1px solid var(--bdr);margin-top:1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="hdr">
+    <div class="brand">Skill<br><span>Bridge</span></div>
+    <div style="text-align:right">
+      <div class="tbox">Job Skill Gap Analyzer</div>
+      <div class="hsub">Find gaps. Build a plan. Crack the interview. Land the job.</div>
+    </div>
+  </div>
+</header>
+
+<!-- SETUP -->
+<div id="setup">
+  <div class="card">
+    <div class="ctitle"><span class="nbadge">1</span> Your Target Role</div>
+    <div class="row2">
+      <div class="fg">
+        <label>Job Role</label>
+        <select id="jobRole">
+          <option value="">-- Select a Role --</option>
+          <option value="frontend">Frontend Developer</option>
+          <option value="backend">Backend Developer</option>
+          <option value="fullstack">Full Stack Developer</option>
+          <option value="datascience">Data Scientist</option>
+          <option value="ml">ML Engineer</option>
+          <option value="devops">DevOps Engineer</option>
+          <option value="uiux">UI/UX Designer</option>
+          <option value="dataanalyst">Data Analyst</option>
+          <option value="android">Android Developer</option>
+          <option value="pm">Product Manager</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Experience Level</label>
+        <select id="expLevel">
+          <option value="fresher">Fresher / Intern</option>
+          <option value="junior">Junior (0-2 years)</option>
+          <option value="mid">Mid-level (2-5 years)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="fg">
+        <label>Target Company</label>
+        <select id="companyType">
+          <option value="startup">Startup</option>
+          <option value="product">Product Company</option>
+          <option value="service">Service Company</option>
+          <option value="mnc">MNC</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Months to Prepare</label>
+        <select id="prepMonths">
+          <option value="1">1 Month - Fast track</option>
+          <option value="2">2 Months</option>
+          <option value="3" selected>3 Months</option>
+          <option value="6">6 Months</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><span class="nbadge">2</span> Your Current Skills</div>
+    <div class="siw">
+      <input type="text" id="skillInput" placeholder="Type a skill and press Add (e.g. Python, React, SQL)">
+      <button class="abtn" onclick="addSkill()">+ Add</button>
+    </div>
+    <div class="tagwrap" id="tagwrap">
+      <span style="font-size:13px;color:var(--muted)">Add your skills above...</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><span class="nbadge">3</span> Your Background</div>
+    <div class="row2">
+      <div class="fg">
+        <label>Degree</label>
+        <select id="degree">
+          <option value="btech">B.Tech / B.E</option>
+          <option value="bca">BCA / B.Sc CS</option>
+          <option value="mtech">M.Tech / MCA</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Graduation Year</label>
+        <select id="gradYear">
+          <option value="2025">2025</option>
+          <option value="2026" selected>2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="bmain" onclick="analyzeGap()">ANALYZE MY SKILL GAP</button>
+</div>
+
+<!-- RESULT -->
+<div id="result" class="hidden">
+  <div class="hero">
+    <div style="text-align:center">
+      <div class="snum" id="scoreNum">0%</div>
+      <div class="slbl">SKILL MATCH</div>
+    </div>
+    <div style="flex:1">
+      <div class="hrole" id="heroRole"></div>
+      <div class="hmeta" id="heroMeta"></div>
+      <div class="hchips" id="heroChips"></div>
+    </div>
+  </div>
+
+  <div class="tabnav">
+    <button class="tbtn active" onclick="switchTab('gap',this)">Skill Gap</button>
+    <button class="tbtn" onclick="switchTab('study',this)">Study Plan</button>
+    <button class="tbtn" onclick="switchTab('interview',this)">Interview Prep</button>
+    <button class="tbtn" onclick="switchTab('apply',this)">How to Apply</button>
+  </div>
+
+  <!-- TAB 1: GAP -->
+  <div class="tcontent active" id="tab-gap">
+    <div class="card">
+      <div class="ctitle">Skill Match Analysis</div>
+      <div class="pwrap">
+        <div class="plbl"><span id="progLbl"></span><span id="progPct" style="font-weight:700"></span></div>
+        <div class="ptrack"><div class="pfill" id="progBar" style="width:0%"></div></div>
+      </div>
+      <div class="ggrid">
+        <div>
+          <div class="gctitle" style="color:var(--grn)">Skills You Have</div>
+          <div id="haveSkills"></div>
+        </div>
+        <div>
+          <div class="gctitle" style="color:var(--red)">Skills You Need</div>
+          <div id="needSkills"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Salary Potential (India)</div>
+      <div id="salaryOut"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: STUDY PLAN -->
+  <div class="tcontent" id="tab-study">
+    <div class="card">
+      <div class="ctitle">Your Personalised Study Plan</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:1rem" id="studyMeta"></div>
+      <div class="dcard">
+        <div class="dtitle">Recommended Daily Schedule</div>
+        <div id="dailySched"></div>
+      </div>
+      <div id="studyMonths"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Learning Resources</div>
+      <div class="rgrid" id="resGrid"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: INTERVIEW -->
+  <div class="tcontent" id="tab-interview">
+    <div class="card">
+      <div class="ctitle">Interview Preparation Roadmap</div>
+      <div id="intPhases"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">DSA Topics to Cover</div>
+      <div class="dgrid" id="dsaGrid"></div>
+      <div style="font-size:13px;color:var(--muted)">Practice on: <b>LeetCode</b>, <b>HackerRank</b>, <b>GeeksforGeeks</b></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Common Interview Questions</div>
+      <div class="qalist" id="qaList"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Mock Interview Tips</div>
+      <div class="tiplist" id="mockTips"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: APPLY -->
+  <div class="tcontent" id="tab-apply">
+    <div class="card">
+      <div class="ctitle">Step-by-Step Application Guide</div>
+      <div id="applySteps"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Best Job Platforms for You</div>
+      <div class="pgrid" id="platGrid"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Resume Tips for This Role</div>
+      <div class="tiplist" id="resTips"></div>
+    </div>
+  </div>
+
+  <button class="bghost" onclick="resetAll()">Back to Setup</button>
+</div>
+
+</div>
+<footer>SkillBridge — skill gap analyzer for students and freshers</footer>
+
+<script>
+"use strict";
+
+var DB = {
+  frontend:{
+    name:"Frontend Developer",
+    skills:["HTML","CSS","JavaScript","React","TypeScript","Git","REST APIs","Responsive Design","Figma basics","Testing"],
+    salary:{fresher:[3,6],junior:[6,14],mid:[14,25]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"DSA Practice on LeetCode Easy",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Core study: JavaScript and React",dur:"2h"},
+      {time:"11:00-12:00 PM",task:"Build a project feature",dur:"1h"},
+      {time:"2:00-3:00 PM",task:"Read docs and articles",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Revise and push to GitHub",dur:"1h"}
+    ],
+    resources:{
+      "JavaScript":["javascript.info (Free)","freeCodeCamp JS (Free)"],
+      "React":["React official docs (Free)","Scrimba React (Free)"],
+      "CSS":["CSS Tricks (Free)","Kevin Powell YouTube (Free)"],
+      "TypeScript":["TypeScript Handbook (Free)","Matt Pocock YouTube (Free)"]
+    },
+    interview:[
+      {q:"Difference between == and === in JavaScript?",a:"== does type coercion before comparing. === checks value AND type without coercion. Always prefer === to avoid unexpected bugs in your code."},
+      {q:"Explain the CSS Box Model.",a:"Every HTML element is a rectangular box with: content area, padding (inner space), border, and margin (outer space). Use box-sizing border-box to include padding and border in the element width."},
+      {q:"What is a closure in JavaScript?",a:"A closure is a function that remembers variables from its outer scope even after the outer function has finished executing. Used for data privacy and creating function factories."},
+      {q:"What is the Virtual DOM in React?",a:"React maintains a lightweight in-memory copy of the real DOM. On state changes, React diffs the virtual DOM with the real DOM and updates only the changed parts, making updates very fast."},
+      {q:"How does async and await work in JS?",a:"async and await is built on top of Promises. An async function always returns a Promise. The await keyword pauses execution until the Promise resolves, making async code look like synchronous code."}
+    ],
+    mockTips:[
+      "Build 3 deployed projects with live links and GitHub repos before applying anywhere",
+      "Record yourself explaining your code decisions out loud - communication matters as much as code",
+      "Practice live coding in CodeSandbox under a 45-minute time limit to simulate interviews",
+      "Be ready to explain event delegation, closures, and the prototype chain from memory"
+    ],
+    resumeTips:[
+      "List 2-3 deployed projects with live demo links and GitHub repository links",
+      "Include measurable results: reduced page load time by 40 percent using lazy loading",
+      "Add your GitHub profile URL showing consistent green contribution activity",
+      "Order skills by proficiency: JavaScript, React, TypeScript, CSS, HTML"
+    ],
+    platforms:["LinkedIn","Naukri.com","Instahyre","Wellfound (AngelList)","GitHub Jobs"]
+  },
+
+  backend:{
+    name:"Backend Developer",
+    skills:["Python or Node.js","SQL","REST APIs","Git","Linux basics","MongoDB","JWT Authentication","Docker basics","System Design","Testing"],
+    salary:{fresher:[3.5,7],junior:[7,15],mid:[15,28]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"DSA Practice on LeetCode",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Core study: APIs, Database, Auth",dur:"2h"},
+      {time:"11:00-12:00 PM",task:"Build a backend project feature",dur:"1h"},
+      {time:"2:00-3:00 PM",task:"System Design reading",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Revise and document on GitHub",dur:"1h"}
+    ],
+    resources:{
+      "Node.js":["Node.js official docs (Free)","The Odin Project (Free)"],
+      "Python":["CS50P Harvard (Free)","Real Python (Free)"],
+      "SQL":["SQLZoo (Free)","Mode Analytics Tutorial (Free)"],
+      "Docker":["Play with Docker (Free)","TechWorld with Nana YouTube (Free)"]
+    },
+    interview:[
+      {q:"What is REST and what are its core principles?",a:"REST is an architectural style for APIs. Core principles: stateless communication, client-server separation, cacheable responses, uniform interface. HTTP methods map to: GET=read, POST=create, PUT=update, DELETE=remove."},
+      {q:"SQL vs NoSQL - when to use which?",a:"SQL uses structured schemas with ACID transactions, great for complex relational queries. NoSQL uses flexible schemas like documents or key-value pairs, great for horizontal scaling and unstructured or rapidly changing data."},
+      {q:"How does JWT authentication work?",a:"Server creates a signed token containing encoded user data. Client stores the token and sends it in the Authorization header on every request. Server verifies the signature each time without needing session storage."},
+      {q:"What is Docker and why is it important?",a:"Docker packages your application and all its dependencies into a portable container. Guarantees the same environment in development, staging, and production. Eliminates the works on my machine problem completely."},
+      {q:"Explain database indexing and its trade-offs.",a:"An index is a data structure that speeds up data retrieval, like a book index. Instead of scanning all rows, the database jumps directly to indexed values. Trade-off: faster reads but slower writes and more storage used."}
+    ],
+    mockTips:[
+      "Practice designing a URL shortener or rate limiter from scratch on paper before interviews",
+      "Know the CAP theorem and SQL versus NoSQL trade-offs cold - these come up constantly",
+      "Be ready to design a REST API with proper status codes, error handling, and pagination",
+      "Practice explaining your system design decisions clearly to a non-technical interviewer"
+    ],
+    resumeTips:[
+      "List APIs you built with example endpoints and the purpose they serve",
+      "Include database design experience with mentions of schema design decisions",
+      "Mention Docker and deployment experience with specific tools used",
+      "Quantify scale: built an API handling over 10,000 requests per day"
+    ],
+    platforms:["LinkedIn","Naukri","Instahyre","HackerEarth Jobs","Stack Overflow Jobs"]
+  },
+
+  fullstack:{
+    name:"Full Stack Developer",
+    skills:["HTML and CSS","JavaScript","React","Node.js","SQL","MongoDB","Git","REST APIs","Docker basics","Vercel or Render deployment"],
+    salary:{fresher:[4,8],junior:[8,18],mid:[18,32]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"DSA Practice on LeetCode",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Frontend study: React and JS",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Backend study: Node.js and Database",dur:"2h"},
+      {time:"3:00-5:00 PM",task:"Build a full stack project feature",dur:"2h"},
+      {time:"7:00-8:00 PM",task:"Revise and push to GitHub",dur:"1h"}
+    ],
+    resources:{
+      "React and Node":["The Odin Project Full Stack (Free)","Full Stack Open Helsinki (Free)"],
+      "Databases":["PostgreSQL Tutorial (Free)","MongoDB University (Free)"],
+      "Deployment":["Vercel Docs (Free)","Render.com Docs (Free)"],
+      "System Design":["System Design Primer GitHub (Free)","ByteByteGo YouTube (Free)"]
+    },
+    interview:[
+      {q:"Explain the full stack request lifecycle end to end.",a:"Browser sends HTTP request, DNS resolves to server IP, server route handler processes it, controller queries database, formats response as JSON, sends back to browser, React renders the UI from the data."},
+      {q:"What is CORS and how do you fix it?",a:"Cross-Origin Resource Sharing - browser blocks requests to different domains for security. Fix: add the Access-Control-Allow-Origin header on the server. In Express.js use the cors npm package."},
+      {q:"SSR vs CSR - when to use each?",a:"Server-Side Rendering generates HTML on the server, better for SEO and faster first paint. Client-Side Rendering generates HTML in the browser, better for app-like interactions after initial load. Next.js supports both per page."},
+      {q:"How do you handle user authentication in a full stack app?",a:"User logs in, server validates credentials, creates and signs a JWT token, client stores token in memory or httpOnly cookie, sends token with every request header, server middleware verifies token on every protected route."},
+      {q:"When should you use Redux instead of React local state?",a:"Use local useState for isolated component data. Use Redux or Context API when multiple unrelated components need shared data, when state changes are complex, or when you need time-travel debugging."}
+    ],
+    mockTips:[
+      "Practice building a complete login plus CRUD plus live deployment feature in under 45 minutes",
+      "Draw architecture diagrams for all your projects and be ready to walk through them",
+      "Be prepared to justify every technology choice in your stack with clear reasoning",
+      "Do at least 2 mock interviews on Pramp.com before your real interviews"
+    ],
+    resumeTips:[
+      "Show complete end-to-end projects with both frontend and backend code on GitHub",
+      "Always include live demo URLs - a working demo impresses more than any description",
+      "List the full tech stack explicitly: React, Node.js, MongoDB, Vercel",
+      "Mention any third-party API integrations you built: Stripe payments, Google Auth, Maps"
+    ],
+    platforms:["LinkedIn","Instahyre","Wellfound","Naukri","Remote OK"]
+  },
+
+  datascience:{
+    name:"Data Scientist",
+    skills:["Python","Pandas","NumPy","Matplotlib and Seaborn","Scikit-learn","SQL","Statistics","Machine Learning","Jupyter Notebooks","Data Visualization"],
+    salary:{fresher:[4,8],junior:[8,16],mid:[15,28]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"Math and Stats revision on Khan Academy",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"ML concept study and implementation",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Kaggle notebook or dataset project",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"SQL practice",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Read ML papers and blogs",dur:"1h"}
+    ],
+    resources:{
+      "Python for DS":["Kaggle Python Course (Free)","CS50 AI Harvard (Free)"],
+      "Machine Learning":["Andrew Ng Coursera ML","fast.ai (Free)"],
+      "Statistics":["StatQuest YouTube (Free)","Khan Academy Statistics (Free)"],
+      "SQL":["Mode Analytics SQL Tutorial (Free)","SQLZoo (Free)"]
+    },
+    interview:[
+      {q:"Supervised vs Unsupervised learning - what is the difference?",a:"Supervised learning trains on labelled data to perform classification or regression tasks. Unsupervised learning has no labels and discovers hidden patterns like clusters or reduced dimensions on its own."},
+      {q:"How do you handle missing data in a dataset?",a:"First understand why the data is missing. Options: drop rows or columns if missingness is small, fill with mean, median, or mode, use forward fill for time series, or train a model to predict the missing values. Always document your approach."},
+      {q:"What is overfitting and how do you prevent it?",a:"Overfitting is when a model memorises training data perfectly but fails badly on new unseen data. Prevention strategies: get more training data, apply L1 or L2 regularisation, use dropout in neural networks, apply cross-validation, simplify the model."},
+      {q:"Explain the bias-variance tradeoff simply.",a:"High bias means the model is too simple and underfits the data. High variance means the model is too complex and overfits. The goal is finding the balance point using validation curves and cross-validation scores."},
+      {q:"Precision vs Recall - when does each matter more?",a:"Precision: of all predicted positives how many are truly positive. Recall: of all actual positives how many did the model find. Prioritise precision when false positives are costly (spam filter). Prioritise recall when false negatives are costly (cancer detection)."}
+    ],
+    mockTips:[
+      "Practice explaining ML concepts in plain language without jargon - recruiters test this",
+      "Prepare a structured case study: given a business problem, walk through your full ML approach",
+      "Practise SQL queries daily - almost every data science interview includes SQL rounds",
+      "Be ready to code logistic regression from scratch on a whiteboard without libraries"
+    ],
+    resumeTips:[
+      "List Kaggle competition rankings and link to your public Kaggle notebooks",
+      "Include project metrics: achieved 94 percent accuracy with F1 score of 0.91",
+      "Show the full data pipeline: data collection, cleaning, modelling, and deployment",
+      "Mention the specific datasets used and real business decisions your model informed"
+    ],
+    platforms:["LinkedIn","Naukri","Kaggle Jobs","Analytics Vidhya Jobs","Instahyre"]
+  },
+
+  ml:{
+    name:"ML Engineer",
+    skills:["Python","TensorFlow or PyTorch","Scikit-learn","Linear Algebra","Statistics","SQL","Docker","REST APIs","Git","Cloud: AWS or GCP"],
+    salary:{fresher:[5,10],junior:[10,20],mid:[20,40]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"Math review: Linear Algebra and Calculus",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Deep learning concept and implementation",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"MLOps and model deployment practice",dur:"2h"},
+      {time:"3:00-5:00 PM",task:"Build and train a model project",dur:"2h"},
+      {time:"7:00-8:00 PM",task:"Read research papers and ML blogs",dur:"1h"}
+    ],
+    resources:{
+      "PyTorch and TF":["fast.ai (Free)","Deep Learning Specialisation Coursera"],
+      "MLOps":["MLOps Zoomcamp (Free)","Made With ML (Free)"],
+      "Cloud ML":["AWS SageMaker docs (Free)","GCP AI Platform docs (Free)"],
+      "Math for ML":["3Blue1Brown YouTube (Free)","Mathematics for ML Coursera (Free)"]
+    },
+    interview:[
+      {q:"Data Scientist vs ML Engineer - what is the difference?",a:"Data Scientists focus on experiments, exploratory analysis, and model building to find insights. ML Engineers focus on deploying, scaling, monitoring, and maintaining ML systems reliably in production with production-grade code."},
+      {q:"What is MLOps and why does it matter?",a:"MLOps applies DevOps principles to machine learning. It covers training pipelines, model versioning with MLflow, automated deployment, monitoring for data drift, and scheduled retraining to keep models accurate over time."},
+      {q:"Walk me through serving an ML model in production.",a:"Train the model, save as pickle or ONNX format, wrap in a REST API using FastAPI or Flask, containerise with Docker, deploy to AWS SageMaker or GCP Vertex or Kubernetes, monitor predictions and latency continuously."},
+      {q:"What is feature engineering and why is it important?",a:"Feature engineering creates new input features from raw data to improve model performance. Examples: extracting day of week from timestamps, normalising numeric ranges, encoding categorical variables. Often more impactful than changing the model architecture."},
+      {q:"Explain transformer models simply.",a:"Transformers use self-attention to process all tokens in parallel, unlike RNNs which process sequentially. The attention mechanism lets each token look at all other tokens when forming its representation. Foundation of BERT, GPT, and all modern NLP models."}
+    ],
+    mockTips:[
+      "Be ready to design a complete ML system end-to-end on a whiteboard from data to deployment",
+      "Understand model compression techniques and inference latency trade-offs deeply",
+      "Practice explaining gradient descent intuitively to someone with no ML background",
+      "Prepare a story about debugging a model that performed well offline but failed in production"
+    ],
+    resumeTips:[
+      "Show model deployment projects with inference APIs, not just Jupyter notebooks",
+      "Include concrete performance metrics: 95 percent accuracy at 50ms average inference latency",
+      "Mention cloud ML platforms used: AWS SageMaker, GCP Vertex AI, Azure ML",
+      "Link to HuggingFace profile showing any public models or fine-tuned checkpoints"
+    ],
+    platforms:["LinkedIn","Instahyre","Wellfound","HuggingFace Jobs","AI-specific job boards"]
+  },
+
+  devops:{
+    name:"DevOps Engineer",
+    skills:["Linux","Git","Docker","Kubernetes","CI/CD: GitHub Actions","AWS or Azure","Bash scripting","Terraform","Monitoring tools","Networking basics"],
+    salary:{fresher:[4,8],junior:[8,18],mid:[18,32]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"Linux commands and Bash scripting practice",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Docker and Kubernetes lab exercises",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Cloud platform labs on AWS free tier",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"Build a complete CI/CD pipeline",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Terraform and Infrastructure as Code study",dur:"1h"}
+    ],
+    resources:{
+      "Docker and K8s":["TechWorld with Nana YouTube (Free)","KodeKloud (Free+Paid)"],
+      "Linux":["Linux Journey (Free)","The Linux Command Line book (Free)"],
+      "AWS":["AWS Free Tier hands-on (Free)","AWS Cloud Practitioner prep (Free)"],
+      "Terraform":["HashiCorp Learn (Free)","Terraform in 1 Hour YouTube (Free)"]
+    },
+    interview:[
+      {q:"Docker vs Kubernetes - what is the difference?",a:"Docker packages individual applications into portable containers. Kubernetes orchestrates and manages multiple containers across a cluster of machines, handling automatic scaling, load balancing, rolling updates, and self-healing restarts."},
+      {q:"What is CI/CD and why is it important?",a:"Continuous Integration automatically builds and tests code on every commit to catch bugs early. Continuous Deployment automatically releases passing builds to production. Together they enable teams to ship small changes frequently and safely."},
+      {q:"What is Infrastructure as Code?",a:"Managing and provisioning infrastructure through declarative code files using tools like Terraform or Ansible, instead of manual clicks in a console. Benefits: version controlled, repeatable, automated, peer-reviewable infrastructure changes."},
+      {q:"How do you approach debugging a production outage?",a:"Check monitoring dashboards first, review recent deployment changes, examine application and infrastructure logs, check resource utilisation like CPU and memory, reproduce in staging environment, roll back if needed, then write a detailed post-mortem."},
+      {q:"What is a load balancer and how does it work?",a:"A load balancer distributes incoming traffic across multiple server instances so no single server becomes a bottleneck. Common algorithms: round-robin, least-connections, IP hash. Improves both availability and horizontal scalability."}
+    ],
+    mockTips:[
+      "Draw a complete end-to-end deployment pipeline on a whiteboard from code commit to production",
+      "Practice explaining how to migrate a monolithic application to microservices step by step",
+      "Know essential Linux commands by heart - expect live terminal problem solving in interviews",
+      "Prepare a real story about a production incident you debugged and what you learned"
+    ],
+    resumeTips:[
+      "List cloud certifications prominently: AWS Solutions Architect, GCP Associate, Azure Fundamentals",
+      "Show CI/CD pipelines you designed with specific stages and tools used",
+      "Mention the scale of infrastructure managed: number of servers, regions, containers",
+      "Link to GitHub with Dockerfiles, Terraform configs, and GitHub Actions YAML files"
+    ],
+    platforms:["LinkedIn","Naukri","Instahyre","Stack Overflow Jobs","DevOps remote job boards"]
+  },
+
+  uiux:{
+    name:"UI/UX Designer",
+    skills:["Figma","Design Systems","User Research","Wireframing","Prototyping","Adobe XD","HTML and CSS basics","Typography","Color Theory","Usability Testing"],
+    salary:{fresher:[3,6],junior:[6,12],mid:[12,22]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"Read UX articles from Nielsen Norman Group",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Figma practice and daily redesign challenge",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Work on a portfolio case study",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"Colour theory and typography study",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Review top work on Dribbble and Behance",dur:"1h"}
+    ],
+    resources:{
+      "Figma":["Figma Academy (Free)","DesignLab Figma Course (Free)"],
+      "UX Research":["Nielsen Norman articles (Free)","UX Collective (Free)"],
+      "Portfolio":["Behance (Free)","Dribbble (Free)"],
+      "Design Basics":["Refactoring UI book","Google Fonts and Material Design (Free)"]
+    },
+    interview:[
+      {q:"Walk me through your full design process.",a:"Empathise through user research and interviews, define the core problem statement clearly, ideate with sketches and wireframes, create interactive prototypes in Figma, test with real users through usability testing sessions, then iterate based on what you learned."},
+      {q:"What is the difference between UX and UI design?",a:"UX design is the overall experience of how easy, intuitive, and satisfying a product is to use. UI design is the visual layer: the colours, typography, buttons, and spacing. UX is the architecture and floor plan; UI is the interior design and decoration."},
+      {q:"How do you handle design feedback you disagree with?",a:"Stay user-centric rather than ego-centric. Ask whether the feedback addresses a real user problem with evidence. Propose testing both approaches if the disagreement persists. User research data and usability test results always win over personal opinions."},
+      {q:"What is a design system and why does it matter?",a:"A design system is a collection of reusable UI components, design tokens for colours and spacing, and documented guidelines ensuring visual consistency across an entire product. Examples include Google Material Design and Shopify Polaris."},
+      {q:"What WCAG accessibility standards do you follow?",a:"WCAG 2.1 AA level: minimum 4.5:1 colour contrast ratio for text, full keyboard navigation support, alt text on all meaningful images, minimum 16px body text, clearly visible focus states on all interactive elements, proper heading hierarchy."}
+    ],
+    mockTips:[
+      "Prepare to complete a design challenge from scratch in 30 minutes during the interview",
+      "Know how to justify every single design decision with UX research and reasoning",
+      "Practice presenting your full portfolio story clearly and confidently in exactly 5 minutes",
+      "Have impact metrics ready for each project: redesign increased checkout conversion by 25 percent"
+    ],
+    resumeTips:[
+      "Your portfolio site or Behance is more important than your resume - make it exceptional",
+      "Show your full design process, not just the final polished screens",
+      "Include before and after redesigns with detailed reasoning for every major change",
+      "List all tools used: Figma, FigJam, Maze for testing, Hotjar for analytics, Miro for workshops"
+    ],
+    platforms:["LinkedIn","Behance Jobs","Dribbble Jobs","Internshala","Instahyre"]
+  },
+
+  dataanalyst:{
+    name:"Data Analyst",
+    skills:["Excel Advanced","SQL","Python with Pandas","Tableau or Power BI","Statistics","Data Cleaning","Dashboard creation","Business acumen","Data Storytelling","Clear Communication"],
+    salary:{fresher:[3,6],junior:[6,12],mid:[10,20]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"SQL practice on LeetCode or Mode Analytics",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Python and Pandas data wrangling exercises",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Build a dashboard in Tableau or Power BI",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"Statistics revision and practice",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Read industry analytics blogs and case studies",dur:"1h"}
+    ],
+    resources:{
+      "SQL":["Mode Analytics SQL Tutorial (Free)","SQLZoo (Free)"],
+      "Python and Pandas":["Kaggle Pandas Course (Free)","Real Python tutorials (Free)"],
+      "Tableau":["Tableau Public free tool (Free)","Tableau official training videos (Free)"],
+      "Statistics":["StatQuest YouTube channel (Free)","Khan Academy Statistics (Free)"]
+    },
+    interview:[
+      {q:"How do you handle outliers in a dataset?",a:"First understand whether the outlier is a data entry error or a genuine extreme value. Options: remove it if it is clearly an error, cap it using the IQR method, apply log transformation to reduce skewness, or keep it and clearly document the decision in your analysis."},
+      {q:"INNER JOIN vs LEFT JOIN - explain the difference.",a:"INNER JOIN returns only rows that have matching values in both tables. LEFT JOIN returns all rows from the left table plus matching rows from the right table, inserting NULL values where there is no right-side match. LEFT JOIN is far more common in analytical queries."},
+      {q:"How do you choose the right chart type for your data?",a:"Comparing categories: bar chart. Showing a trend over time: line chart. Showing part of a whole: pie or donut chart. Showing a distribution: histogram. Showing a relationship between two variables: scatter plot. The golden rule is always prioritise clarity over visual complexity."},
+      {q:"What is a KPI and how do you define a good one?",a:"A Key Performance Indicator is a specific measurable value that shows how effectively a strategic goal is being achieved. A good KPI is: specific and clearly defined, measurable with available data, time-bound with a clear target, and directly tied to a real business objective."},
+      {q:"Explain A/B testing step by step.",a:"Randomly split users into control group A and variant group B. Show each group a different version of the feature being tested. Measure the primary metric like conversion rate over a pre-defined time period. Check if the difference is statistically significant with a p-value below 0.05 before concluding."}
+    ],
+    mockTips:[
+      "Prepare a structured 5-minute story for each project covering problem, approach, tools, and measurable outcome",
+      "Practice SQL queries daily on Mode Analytics or LeetCode database problems",
+      "Expect a take-home case study in almost every data analyst interview - time yourself",
+      "Practise explaining statistical significance and confidence intervals in plain business language"
+    ],
+    resumeTips:[
+      "Quantify every achievement: automated weekly reporting, saving 8 hours of manual work per week",
+      "Link to your Tableau Public profile or embed Power BI dashboard screenshots",
+      "Show SQL complexity level: experience with window functions, CTEs, and complex subqueries",
+      "Demonstrate domain expertise in a specific industry: fintech, e-commerce, or healthcare analytics"
+    ],
+    platforms:["LinkedIn","Naukri","Analytics Vidhya Jobs","Kaggle Jobs","Instahyre"]
+  },
+
+  android:{
+    name:"Android Developer",
+    skills:["Kotlin","Java basics","Android SDK","XML Layouts","Jetpack Compose","REST APIs","Git","Firebase","Room Database","Play Store deployment"],
+    salary:{fresher:[3.5,7],junior:[7,15],mid:[14,26]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"DSA practice in Kotlin on LeetCode",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"Android SDK and Jetpack Compose study",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Build a feature in your app project",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"Firebase and backend integration practice",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Test app thoroughly and fix bugs",dur:"1h"}
+    ],
+    resources:{
+      "Kotlin":["Kotlin Koans exercises (Free)","Android Kotlin Fundamentals Codelab (Free)"],
+      "Jetpack Compose":["Android Compose Pathway (Free)","Philipp Lackner YouTube (Free)"],
+      "Firebase":["Firebase Codelabs (Free)","Firebase official documentation (Free)"],
+      "Architecture":["Android Architecture Guide (Free)","Clean Architecture by Robert Martin"]
+    },
+    interview:[
+      {q:"What is the difference between Activity and Fragment?",a:"Activity is a standalone full-screen UI component and the entry point of an Android app. Fragment is a modular reusable section of UI that lives inside an Activity. Fragments enable flexible multi-pane layouts and reusable screen components especially on tablets."},
+      {q:"Explain Jetpack Compose and how it differs from XML.",a:"Jetpack Compose is Kotlin-first declarative UI framework. You describe what the UI should look like as a function of state, and Compose handles all rendering and updates. No more XML files, ViewBinding, or findViewById. UI is entirely in Kotlin composable functions."},
+      {q:"What is ViewModel in Android Architecture?",a:"ViewModel is an Android Architecture Component that stores and manages UI-related data. It survives configuration changes like screen rotation so data is not lost. It cleanly separates business logic from UI code following the single responsibility principle."},
+      {q:"Why is RecyclerView better than ListView?",a:"RecyclerView enforces the ViewHolder pattern for efficient view recycling, supports multiple LayoutManagers for grid and staggered layouts, includes built-in item animations and decorations, handles large datasets much more efficiently, and is far more extensible and customisable."},
+      {q:"What are Kotlin Coroutines and why use them?",a:"Coroutines are Kotlin lightweight concurrency primitives. They allow you to write asynchronous code that reads like sequential synchronous code. The suspend keyword marks functions that can pause without blocking the thread, making network calls and database queries clean and readable."}
+    ],
+    mockTips:[
+      "Build a complete app using MVVM architecture with Room, Retrofit, and Coroutines",
+      "Know the complete Activity and Fragment lifecycle backwards - this appears in every interview",
+      "Practice explaining the trade-offs between Jetpack Compose and the traditional XML approach",
+      "Be ready to debug an ANR or memory leak scenario live in front of the interviewer"
+    ],
+    resumeTips:[
+      "Link directly to your published apps on the Google Play Store",
+      "Include app metrics if available: total downloads, active users, star rating",
+      "Clearly state the architecture pattern used in each project: MVVM or Clean Architecture",
+      "Mention Firebase services used: Auth, Firestore, Cloud Messaging, Crashlytics"
+    ],
+    platforms:["LinkedIn","Naukri","Instahyre","Internshala","Google Careers"]
+  },
+
+  pm:{
+    name:"Product Manager",
+    skills:["Product Thinking","Agile and Scrum","User Research","Data Analysis","SQL basics","Wireframing in Figma","Stakeholder Management","A/B Testing","Product Roadmapping","Strong Communication"],
+    salary:{fresher:[5,10],junior:[10,22],mid:[20,40]},
+    daily:[
+      {time:"6:00-7:00 AM",task:"Read PM newsletters and product teardowns",dur:"1h"},
+      {time:"9:00-11:00 AM",task:"SQL practice on Mode Analytics",dur:"2h"},
+      {time:"11:00-1:00 PM",task:"Work through a PM case study",dur:"2h"},
+      {time:"3:00-4:00 PM",task:"Mock PM interview practice session",dur:"1h"},
+      {time:"7:00-8:00 PM",task:"Write user stories or a mini PRD",dur:"1h"}
+    ],
+    resources:{
+      "PM Fundamentals":["Shreyas Doshi blog and Twitter (Free)","Lenny Newsletter (Free)"],
+      "SQL for PMs":["Mode Analytics SQL Tutorial (Free)","Khan Academy SQL (Free)"],
+      "Case Studies":["PM Exercises website (Free)","ProductHQ (Free)"],
+      "Essential Books":["Inspired by Marty Cagan","The Lean Startup by Eric Ries"]
+    },
+    interview:[
+      {q:"How do you prioritise features on a product roadmap?",a:"Use structured frameworks: RICE Score (Reach times Impact times Confidence divided by Effort), MoSCoW method (Must have, Should have, Could have, Will not have), or the Kano Model for delight vs basic features. Always anchor every decision back to business objectives and validated user needs."},
+      {q:"Tell me about a product you admire and how you would improve it.",a:"Structure your answer clearly: What core problem does this product solve? Who are the primary users and their jobs to be done? How is success measured today? What are the top pain points users experience? What specific improvement would you build, why would you prioritise it, and what trade-offs does it involve?"},
+      {q:"How do you define success metrics for a new feature?",a:"Before launch, define your primary North Star metric and two or three supporting guardrail metrics. State your hypothesis clearly. After launch, measure engagement, retention, and conversion rates. Compare against a pre-launch baseline. Run an A/B test whenever traffic volume allows."},
+      {q:"How do you handle disagreement with an engineering team?",a:"Start by genuinely trying to understand their technical constraints and concerns. Share the user research data and business impact evidence supporting your position. Collaboratively explore a middle-ground solution that achieves the core outcome. Build long-term trust through transparency and follow-through."},
+      {q:"What is a PRD and what should it contain?",a:"A Product Requirements Document describes the problem being solved, the target user segments, detailed user stories and acceptance criteria, success metrics, explicit scope and out-of-scope items, edge cases and error states, and open questions. Written by the PM and used by engineering, design, and QA teams."}
+    ],
+    mockTips:[
+      "Practice product design questions daily: design a navigation app for a visually impaired user",
+      "Do root cause analysis exercises for metric drop scenarios in every mock session",
+      "Learn and practise the CIRCLES framework for product design questions thoroughly",
+      "Read in-depth product teardowns on ProductHunt and Substack to sharpen your product intuition"
+    ],
+    resumeTips:[
+      "Lead with impact metrics: launched feature X, driving a 30 percent increase in daily active users",
+      "Show complete product ownership: from initial user research through launch and post-launch analysis",
+      "Highlight cross-functional leadership with engineering, design, data, and marketing teams",
+      "List specific tools used: Jira for project management, Amplitude for analytics, Figma for wireframing, Notion for documentation"
+    ],
+    platforms:["LinkedIn","Naukri","Product Hunt Jobs","Instahyre","Wellfound"]
+  }
+};
+
+var dsaData = [
+  {name:"Arrays and Strings",easy:10,total:30},
+  {name:"Linked Lists",easy:5,total:15},
+  {name:"Trees and Graphs",easy:5,total:20},
+  {name:"Dynamic Programming",easy:3,total:20},
+  {name:"Sorting and Searching",easy:5,total:15},
+  {name:"System Design",easy:2,total:10}
+];
+
+var userSkills = [];
+
+document.getElementById("skillInput").addEventListener("keydown", function(e){
+  if(e.key === "Enter") addSkill();
+});
+
+function addSkill(){
+  var inp = document.getElementById("skillInput");
+  var val = inp.value.trim();
+  if(!val) return;
+  if(userSkills.indexOf(val) === -1){ userSkills.push(val); renderTags(); }
+  inp.value = ""; inp.focus();
+}
+
+function removeSkill(s){
+  userSkills = userSkills.filter(function(x){ return x !== s; });
+  renderTags();
+}
+
+function renderTags(){
+  var w = document.getElementById("tagwrap");
+  if(!userSkills.length){ w.innerHTML = "<span style='font-size:13px;color:var(--muted)'>Add your skills above...</span>"; return; }
+  w.innerHTML = userSkills.map(function(s){
+    return "<div class='tag'>" + s + "<span class='tagx' onclick=\"removeSkill('" + s + "')\">x</span></div>";
+  }).join("");
+}
+
+function switchTab(tab, btn){
+  document.querySelectorAll(".tbtn").forEach(function(b){ b.classList.remove("active"); });
+  document.querySelectorAll(".tcontent").forEach(function(c){ c.classList.remove("active"); });
+  btn.classList.add("active");
+  document.getElementById("tab-" + tab).classList.add("active");
+}
+
+function analyzeGap(){
+  var roleKey = document.getElementById("jobRole").value;
+  var exp = document.getElementById("expLevel").value;
+  var company = document.getElementById("companyType").value;
+  var months = parseInt(document.getElementById("prepMonths").value);
+  if(!roleKey){ alert("Please select a job role!"); return; }
+
+  var role = DB[roleKey];
+  var uLower = userSkills.map(function(s){ return s.toLowerCase(); });
+  var have = [], need = [];
+
+  role.skills.forEach(function(skill){
+    var key = skill.toLowerCase().split(/[\s\/]/)[0];
+    var matched = uLower.some(function(u){ return u.indexOf(key) !== -1 || key.indexOf(u) !== -1; });
+    if(matched) have.push(skill); else need.push(skill);
+  });
+
+  var pct = Math.round((have.length / role.skills.length) * 100);
+
+  document.getElementById("setup").style.display = "none";
+  var rs = document.getElementById("result");
+  rs.classList.remove("hidden"); rs.style.display = "block";
+
+  document.getElementById("heroRole").textContent = role.name;
+  document.getElementById("heroMeta").textContent = exp + " level  |  " + company + "  |  " + months + " month prep  |  " + need.length + " skills to learn";
+  document.getElementById("heroChips").innerHTML = [exp, company, months + " months", have.length + "/" + role.skills.length + " skills"].map(function(c){
+    return "<span class='hchip'>" + c + "</span>";
+  }).join("");
+
+  // animate score
+  var cur = 0, el = document.getElementById("scoreNum");
+  var iv = setInterval(function(){ cur = Math.min(cur+2, pct); el.textContent = cur+"%"; if(cur>=pct) clearInterval(iv); }, 20);
+
+  // GAP TAB
+  document.getElementById("progLbl").textContent = have.length + " of " + role.skills.length + " required skills matched";
+  document.getElementById("progPct").textContent = pct + "%";
+  setTimeout(function(){ document.getElementById("progBar").style.width = pct + "%"; }, 200);
+
+  document.getElementById("haveSkills").innerHTML = have.length
+    ? have.map(function(s){ return "<div class='sitem have'><span class='sdot dh'></span>" + s + "</div>"; }).join("")
+    : "<div style='font-size:13px;color:var(--muted);padding:8px'>Add your skills to see matches</div>";
+
+  document.getElementById("needSkills").innerHTML = need.map(function(s){
+    return "<div class='sitem miss'><span class='sdot dm'></span>" + s + "</div>";
+  }).join("");
+
+  var sal = role.salary[exp] || role.salary.fresher;
+  document.getElementById("salaryOut").innerHTML =
+    "<div class='srow'><div class='slabel'>Current potential</div><div class='strack'><div class='sfill' style='width:" + Math.min(100,sal[0]/40*100) + "%'></div></div><div class='sval'>Rs " + sal[0] + "-" + sal[1] + " LPA</div></div>" +
+    "<div class='srow'><div class='slabel'>With all skills</div><div class='strack'><div class='sfill' style='width:" + Math.min(100,sal[1]*1.4/40*100) + "%;background:var(--red)'></div></div><div class='sval' style='color:var(--red)'>Rs " + Math.round(sal[1]*1.2) + "-" + Math.round(sal[1]*1.5) + " LPA</div></div>" +
+    "<div style='font-size:12px;color:var(--muted);margin-top:8px'>Estimates for India market. Varies by city and company.</div>";
+
+  buildStudyPlan(role, need, months);
+  buildInterviewPrep(role);
+  buildApplyGuide(role);
+}
+
+// ---- STUDY PLAN ----
+function buildStudyPlan(role, need, months){
+  document.getElementById("studyMeta").textContent = months + "-month plan  |  " + need.length + " skills to acquire  |  approx " + (months*20) + " study days";
+
+  document.getElementById("dailySched").innerHTML = role.daily.map(function(d){
+    return "<div class='drow'><div class='dtime'>" + d.time + "</div><div class='dtask'>" + d.task + "</div><div class='ddur'>" + d.dur + "</div></div>";
+  }).join("");
+
+  var phases = getPhases(months);
+  var html = "", wn = 1, si = 0;
+  var spw = Math.max(1, Math.ceil(need.length / (months*4)));
+
+  phases.forEach(function(phase){
+    html += "<div class='mblock'><div class='mhdr'><div class='mtitle'>" + phase.label + "</div><div class='mbadge'>" + phase.weeks + " weeks  |  " + phase.focus + "</div></div><div class='mbody'>";
+    for(var w=0; w<phase.weeks; w++, wn++){
+      var ws = need.slice(si, si+spw); si += spw;
+      var stags = ws.map(function(s){ return "<span class='wtag hl'>" + s + "</span>"; }).join("");
+      html += "<div class='witem'><div class='wnum'>W" + wn + "</div><div style='flex:1'>";
+      html += "<div class='wtitle'>" + phase.wt + " - Week " + wn + "</div>";
+      html += "<div class='wtasks'>" + (ws.length ? "Focus: " + ws.join(", ") : "Revision and practice") + "</div>";
+      html += "<div class='wtags'>" + stags + "<span class='wtag'>DSA Practice</span><span class='wtag'>Build project</span></div>";
+      html += "<div class='whrs'>" + phase.hrs + " hrs/day recommended</div></div></div>";
+    }
+    html += "</div></div>";
+  });
+  document.getElementById("studyMonths").innerHTML = html;
+
+  document.getElementById("resGrid").innerHTML = Object.keys(role.resources).map(function(skill){
+    var links = role.resources[skill];
+    return "<div class='rcard'><div class='rskill'>" + skill + "</div><div class='rlinks'>" +
+      links.map(function(l){ return "<span class='rlink " + (l.indexOf("Free")!==-1?"free":"") + "'>" + l + "</span>"; }).join("") +
+      "</div></div>";
+  }).join("");
+}
+
+function getPhases(months){
+  if(months===1) return [{label:"Month 1 - Intensive Sprint",weeks:4,focus:"Core skills and projects",hrs:"4-5",wt:"Sprint"}];
+  if(months===2) return [
+    {label:"Month 1 - Foundation",weeks:4,focus:"Core skills",hrs:"3-4",wt:"Foundation"},
+    {label:"Month 2 - Mastery",weeks:4,focus:"Projects and interview prep",hrs:"4-5",wt:"Mastery"}
+  ];
+  if(months===3) return [
+    {label:"Month 1 - Foundation",weeks:4,focus:"Core concepts",hrs:"2-3",wt:"Foundation"},
+    {label:"Month 2 - Building",weeks:4,focus:"Projects and advanced skills",hrs:"3-4",wt:"Build"},
+    {label:"Month 3 - Interview Ready",weeks:4,focus:"DSA and mock interviews",hrs:"3-5",wt:"Prep"}
+  ];
+  return [
+    {label:"Months 1-2 - Deep Foundation",weeks:8,focus:"Core concepts",hrs:"2",wt:"Foundation"},
+    {label:"Months 3-4 - Projects",weeks:8,focus:"Real-world projects",hrs:"3",wt:"Build"},
+    {label:"Months 5-6 - Interview Ready",weeks:8,focus:"DSA and mock interviews",hrs:"4",wt:"Prep"}
+  ];
+}
+
+// ---- INTERVIEW PREP ----
+function buildInterviewPrep(role){
+  var phases = [
+    {name:"Round 1 - Aptitude / Online Assessment",wk:"Week 1-2",items:[
+      {i:"🧮",b:"Quantitative Aptitude",d:"Practice on IndiaBIX and PrepInsta. Focus on percentages, time and speed, and data interpretation."},
+      {i:"🧠",b:"Logical Reasoning",d:"Syllogisms, number puzzles, blood relations. Practice 30 minutes daily."},
+      {i:"💬",b:"Verbal Ability",d:"Reading comprehension and sentence correction. Practice on Magoosh or free GRE prep sites."}
+    ]},
+    {name:"Round 2 - Technical DSA Round",wk:"Week 2-6",items:[
+      {i:"💻",b:"LeetCode Easy - target 50 problems",d:"Arrays, strings, and hashmaps first. Solve 2-3 problems daily focusing on pattern recognition over memorisation."},
+      {i:"🔁",b:"LeetCode Medium - target 30 problems",d:"Trees, graphs, dynamic programming, and sliding window patterns. Understand each approach deeply."},
+      {i:"⏱️",b:"Timed Mock Sessions",d:"Solve problems under a 45-minute time limit on LeetCode to simulate real interview time pressure."}
+    ]},
+    {name:"Round 3 - Technical Core / Project Round",wk:"Week 3-8",items:[
+      {i:"📖",b:"Core CS Subject Revision",d:"Revise Operating Systems, DBMS, Computer Networks, and OOP. Essential for service company interviews at TCS, Infosys, and Wipro."},
+      {i:"🗂️",b:"Project Deep Dive Preparation",d:"Prepare to explain every project: the problem it solved, the tech choices made, challenges faced, and what you would do differently now."},
+      {i:"🏗️",b:"System Design Fundamentals",d:"For product companies: practise designing a URL shortener, chat app, and news feed. Use the Grokking System Design course."}
+    ]},
+    {name:"Round 4 - HR Round",wk:"Final week",items:[
+      {i:"🎤",b:"Tell Me About Yourself",d:"Prepare and rehearse a crisp 2-minute script covering your background, key skills, best projects, why this specific role, and why this company."},
+      {i:"🌟",b:"Behavioural Questions using STAR method",d:"Situation, Task, Action, Result format. Prepare stories for: teamwork, handling failure, showing leadership, and resolving conflicts."},
+      {i:"🏢",b:"Company Research",d:"Research the company products, tech stack, recent news, engineering blog, and Glassdoor reviews before every interview."}
+    ]}
+  ];
+
+  document.getElementById("intPhases").innerHTML = phases.map(function(p){
+    return "<div class='iphase'><div class='iphdr'><div class='ipname'>" + p.name + "</div><div class='ipwk'>" + p.wk + "</div></div><div class='ipbody'>" +
+      p.items.map(function(it){
+        return "<div class='pitem'><div class='pico'>" + it.i + "</div><div><span class='pb'>" + it.b + "</span><span class='pd'>" + it.d + "</span></div></div>";
+      }).join("") + "</div></div>";
+  }).join("");
+
+  document.getElementById("dsaGrid").innerHTML = dsaData.map(function(t){
+    var pct = Math.round(t.easy/t.total*100);
+    return "<div class='dtopic'><div class='dname'>" + t.name + "</div><div class='dcnt'>Start: " + t.easy + " easy | Target: " + t.total + " total</div><div class='dbar'><div class='dbfill' style='width:0%' data-w='" + pct + "%'></div></div></div>";
+  }).join("");
+  setTimeout(function(){
+    document.querySelectorAll(".dbfill").forEach(function(el){ el.style.width = el.dataset.w; });
+  }, 400);
+
+  document.getElementById("qaList").innerHTML = role.interview.map(function(qa, i){
+    return "<div class='qaitem'><div class='qaq'>Q: " + qa.q + "</div><div class='qaa' id='qa" + i + "'>" + qa.a + "</div><span class='qatog' onclick='toggleQA(" + i + ")'>Show Answer</span></div>";
+  }).join("");
+
+  document.getElementById("mockTips").innerHTML = role.mockTips.map(function(t){
+    return "<div class='tipitem'><span>💡</span>" + t + "</div>";
+  }).join("");
+}
+
+function toggleQA(i){
+  var a = document.getElementById("qa"+i);
+  var tog = a.nextElementSibling;
+  if(a.style.display === "block"){ a.style.display = "none"; tog.textContent = "Show Answer"; }
+  else { a.style.display = "block"; tog.textContent = "Hide Answer"; }
+}
+
+// ---- HOW TO APPLY ----
+function buildApplyGuide(role){
+  var steps = [
+    {n:"01",t:"Build Your Portfolio First",d:"Before applying anywhere, have 2-3 solid projects with live demo links, clean GitHub repos with proper READMEs, and a clear problem statement for each one.",chips:[{t:"GitHub Pages",c:"ct"},{t:"Vercel / Netlify",c:"ct"},{t:"1 project = 1 problem",c:"cg"}]},
+    {n:"02",t:"Write a Powerful One-Page Resume",d:"ATS-optimised, one page only. Use strong action verbs: Built, Designed, Implemented, Optimised. Quantify every achievement. Mirror keywords from job descriptions.",chips:[{t:"Overleaf / LaTeX",c:"ct"},{t:"Canva Resume",c:"ct"},{t:"Always quantify impact",c:"cw"},{t:"1 page only",c:"cw"}]},
+    {n:"03",t:"Optimise Your LinkedIn Profile",d:"Craft a keyword-rich headline: Aspiring Frontend Developer | React | JavaScript | Open to Work. Add all skills, projects, and certifications. Enable the Open to Work banner.",chips:[{t:"Professional headshot",c:"cg"},{t:"Open to Work ON",c:"cg"},{t:"Target 500+ connections",c:"ct"}]},
+    {n:"04",t:"Apply Smart, Not Everywhere",d:"Apply to 5-10 well-targeted roles per day rather than mass applying. Customise your cover letter for each company. Apply within 24 hours of posting for maximum visibility.",chips:[{t:"Apply within 24 hours",c:"cw"},{t:"Track in Notion/Sheets",c:"ct"},{t:"Customise every cover letter",c:"cg"}]},
+    {n:"05",t:"Network Actively Every Week",d:"70 percent of jobs are filled through referrals. Message employees at target companies: Hi [name], I admire your work at [company]. I am a fresher interested in [role]. Could we connect for 15 minutes?",chips:[{t:"LinkedIn DMs",c:"ct"},{t:"College alumni network",c:"cg"},{t:"Ex-colleagues",c:"cg"}]},
+    {n:"06",t:"Research Each Company Thoroughly",d:"Before every interview, research: what products the company builds, their full tech stack, recent product launches, Glassdoor culture reviews, and the specific team you would join.",chips:[{t:"Glassdoor",c:"ct"},{t:"LinkedIn company page",c:"ct"},{t:"Company engineering blog",c:"cg"}]},
+    {n:"07",t:"Follow Up and Track Everything",d:"Send a thank-you email within 24 hours of every interview. If no response after one week, send one polite follow-up. Track all applications in a spreadsheet with company, role, status, and next steps.",chips:[{t:"Google Sheets tracker",c:"ct"},{t:"Follow-up = 30% more replies",c:"cw"},{t:"Be persistent, not pushy",c:"cg"}]}
+  ];
+
+  document.getElementById("applySteps").innerHTML = steps.map(function(s){
+    return "<div class='astep'><div class='anum'>" + s.n + "</div><div><div class='atitle'>" + s.t + "</div><div class='adesc'>" + s.d + "</div><div class='achips'>" +
+      s.chips.map(function(c){ return "<span class='chip " + c.c + "'>" + c.t + "</span>"; }).join("") +
+      "</div></div></div>";
+  }).join("");
+
+  var plats = [
+    {n:"LinkedIn",d:"Best for networking, referrals, and direct company applications. Connect with employees at target companies.",tags:["All roles","Referrals","Networking"]},
+    {n:"Naukri.com",d:"Largest Indian job portal with the widest company coverage. Update your profile weekly for algorithm visibility.",tags:["India focused","High volume","All levels"]},
+    {n:"Instahyre",d:"AI-matched curated jobs only. Higher quality and response rates than mass job portals.",tags:["Curated","Fast response","Tech roles"]},
+    {n:"Wellfound",d:"Best platform for startup jobs. Many early-stage companies offer equity and hire directly here.",tags:["Startups","Equity roles","Direct apply"]},
+    {n:"Internshala",d:"Best platform for internships and entry-level roles in India. Also offers skill certification courses.",tags:["Freshers","Internships","India"]},
+    {n:"Remote OK",d:"Curated remote job listings from companies worldwide. Good for international opportunities.",tags:["Remote jobs","Global","Tech focused"]}
+  ];
+
+  document.getElementById("platGrid").innerHTML = plats.map(function(p){
+    return "<div class='pcard'><div class='pname'>" + p.n + "</div><div class='pdesc'>" + p.d + "</div><div class='ptags'>" +
+      p.tags.map(function(t){ return "<span class='ptag'>" + t + "</span>"; }).join("") + "</div></div>";
+  }).join("");
+
+  document.getElementById("resTips").innerHTML = role.resumeTips.map(function(t){
+    return "<div class='tipitem'><span>✅</span>" + t + "</div>";
+  }).join("");
+}
+
+function resetAll(){
+  userSkills = []; renderTags();
+  document.getElementById("jobRole").value = "";
+  document.getElementById("setup").style.display = "block";
+  document.getElementById("result").style.display = "none";
+  document.querySelectorAll(".tbtn").forEach(function(b,i){ b.classList.toggle("active", i===0); });
+  document.querySelectorAll(".tcontent").forEach(function(c,i){ c.classList.toggle("active", i===0); });
+}
+</script>
+</body>
+</html>
